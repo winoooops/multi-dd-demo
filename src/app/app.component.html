@@ -4,6 +4,9 @@
   <p>It demonstrates how to use the Multi-DD feature to create a new component.</p>
   <p>Below is a table of players in the party. Drag and drop to reorder the players.</p>
 
+  <input type="checkbox" id="customization" (change)="toggleCustomiztion()" [checked]="isCustomized">
+  <label for="customization">Enable Multi-Drag(Disable the Default behavior from CDK)</label>
+
   <div cdkDropList #ddContainer class="dd-table-container" (cdkDropListDropped)="onDrop($event)" >
     <div class="dd-table-header">
       <div class="dd-table-row">
@@ -22,12 +25,13 @@
         (click)="onPlayerClick(player)"
         cdkDrag 
         cdkDragPreviewContainer="parent"
-        cdkDragBoundary=".dd-table-container"
+        cdkDragBoundary=".dd-table-body"
         [id]="player.id"
         [cdkDragData]="player"
         (cdkDragStarted)="onDragStarted($event)"
         (cdkDragMoved)="onDragMoved($event)"
         (keydown)="onKeyDown($event)"
+        [style.transform]="getItemTransform(player.id)"
       >
         <!-- multi-drag preview -->
         <div *cdkDragPreview matchSize>
@@ -46,7 +50,7 @@
 
         <!-- placeholder -->
         <div class="dd-placeholder-container" *cdkDragPlaceholder>
-          <div class="dd-placeholder-row" ></div>
+          <div class="dd-placeholder-row"></div>
         </div>
 
         <div class="dd-table-cell">{{player.id}}</div>
